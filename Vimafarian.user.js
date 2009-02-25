@@ -38,6 +38,7 @@ document.addEventListener('keypress',
     if(element.tagName == 'INPUT' || element.tagName == 'TEXTAREA') return;
 
 		var keyNum;
+    var pressed;
 
     if (e.which) {
 			keyNum = e.which;
@@ -45,9 +46,19 @@ document.addEventListener('keypress',
 
 		var keyChar = String.fromCharCode(keyNum);
 
+    // Multi-key functions
+    if (keyChar == 'g') {
+      if (pressed == 'g') {
+        window.scrollTo(0,0);
+        pressed = '';
+      } else {
+        pressed = 'g';
+      }
+    }
+
     // Movement functions
     // scroll to bottom
-    if (keyChar == 'G') {
+    else if (keyChar == 'G') {
       goToBottom();
     }
     // scroll up
