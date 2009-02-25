@@ -13,7 +13,7 @@
 // TODOs
 // the 'y' key sure would be nice, but seems technically impossible 
 //   to implement correctly at the moment
-// 
+// motion ranges are needed...
 
 // globals
 // this is hacky, necessitated by the lack of a js function for going
@@ -184,7 +184,24 @@ document.addEventListener('keypress',
       window.scrollBy(0, -(window.innerHeight / 2));
     }
 
+    // Navigation functions
+    // go back one page
+    // ctrl-o
+    else if (keyNum == 15) {
+      history.go(-1);
+    }
+    // go forward one page
+    // ctrl-i
+    else if (keyNum == 9) {
+      history.go(1);
+    }
+
     // Browser functions
+    // stop loading current page
+    // ctrl-c
+    else if (keyNum == 3) {
+      window.stop();
+    }
     // close window
 		else if (keyChar == 'd') {
       window.open('', '_self', '');
