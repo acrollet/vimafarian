@@ -39,11 +39,11 @@ document.addEventListener('keypress',
 
     // Movement functions
     // scroll to bottom
-    else if (keyChar == 'G') {
+    if (keyChar == 'G') {
       goToBottom();
     }
     // scroll up
-		if (keyChar == 'j') {
+    else if (keyChar == 'j') {
 			window.scrollBy(0,50);
 		}
     // scroll down
@@ -57,9 +57,9 @@ document.addEventListener('keypress',
       window.open('', '_self', '');
       top.window.close();
     }
-    // else if (keyChar == 'r') {
-      // window.location.reload();
-    // }
+    else if (keyChar == 'r') {
+      window.location.reload();
+    }
 
 	}, 
 true);
