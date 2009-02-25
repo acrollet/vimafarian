@@ -22,7 +22,7 @@ function goToBottom() {
 
 function openNewTab() {
   // Change "_blank" to something like "newWindow" to load all links in the same new window
-  var newWindow = window.open('about:blank', '_blank');
+  var newWindow = window.open('', '_blank');
   newWindow.focus();
   return false;
 }
