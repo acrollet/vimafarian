@@ -12,6 +12,9 @@
 //
 
 // globals
+// this is hacky, necessitated by the lack of a js function for going
+// to the user's home page in safari
+var homePage='http://reluctanthacker.rollett.org/software/vimafarian/';
 var pressed;
 
 // functions 
@@ -62,7 +65,7 @@ document.addEventListener('keypress',
       // emulates 'gh'
       if (pressed == 'g') {
         // go to user's home page
-        window.home();
+        window.location=homePage;
         pressed = '';
       } 
     }
