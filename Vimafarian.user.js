@@ -41,10 +41,27 @@ function upOneDir(docHref) {
   var lastSlash = docHref.lastIndexOf('/');
   var lengthOfHref = docHref.length;
   if (lengthOfHref == (lastSlash + 1)) {
+    // if we're already at the top level, quit!
+    if (charCount(docHref, '/') <= 3) {
+      return docHref;
+    }
     docHref = docHref.substr(0, (lengthOfHref - 2));
     var lastSlash = docHref.lastIndexOf('/');
   }
   return docHref.substr(0, (lastSlash + 1));
+}
+
+function charCount(myString, myChar) {
+  var counter = 0;
+  var myArray = myString.toLowerCase().split('');
+  for (i=0;i<myArray.length;i++)
+  {
+    if (myArray[i] == myChar)
+    {
+      counter++;
+    }
+  }
+  return counter;
 }
 
 document.addEventListener('keypress', 
@@ -87,7 +104,10 @@ document.addEventListener('keypress',
       // emulates 'gu'
       if (pressed == 'g') {
         // go up one level
-        window.location=upOneDir(window.location.href);
+        newHref = upOneDir(window.location.href);
+        if (newHref != window.location.href) {
+          window.location=upOneDir(window.location.href);
+        }
         pressed = '';
       } 
     }
