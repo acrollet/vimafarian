@@ -51,6 +51,27 @@ function upOneDir(docHref) {
   return docHref.substr(0, (lastSlash + 1));
 }
 
+function upToTop(docHref) {
+  var endIndex = 0;
+  var counter = 0;
+  var myArray = docHref.toLowerCase().split('');
+  for (i=0;i<myArray.length;i++)
+  {
+    if (myArray[i] == '/')
+    {
+      counter++;
+    }
+    if (counter == 2) {
+      endIndex = i;
+    }
+  }
+  if (endIndex != 0) {
+    return docHref.substr(0, (endIndex + 1));
+  } else {
+    return docHref;
+  }
+}
+
 function charCount(myString, myChar) {
   var counter = 0;
   var myArray = myString.toLowerCase().split('');
@@ -92,7 +113,7 @@ document.addEventListener('keypress',
         pressed = 'g';
       }
     }
-    if (keyChar == 'h') {
+    else if (keyChar == 'h') {
       // emulates 'gh'
       if (pressed == 'g') {
         // go to user's home page
@@ -100,13 +121,24 @@ document.addEventListener('keypress',
         pressed = '';
       } 
     }
-    if (keyChar == 'u') {
+    else if (keyChar == 'u') {
       // emulates 'gu'
       if (pressed == 'g') {
         // go up one level
         newHref = upOneDir(window.location.href);
         if (newHref != window.location.href) {
-          window.location=upOneDir(window.location.href);
+          window.location=newHref;
+        }
+        pressed = '';
+      } 
+    }
+    else if (keyChar == 'U') {
+      // emulates 'gU'
+      if (pressed == 'g') {
+        // go up one level
+        newHref = upToTop(window.location.href);
+        if (newHref != window.location.href) {
+          window.location=newHref;
         }
         pressed = '';
       } 
