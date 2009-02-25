@@ -8,7 +8,10 @@
 // ==/UserScript==
 //
 // CREDITS
+// http://vimperator.org/trac/wiki/Vimperator (of course)
 // http://www.openjs.com/scripts/events/keyboard_shortcuts/
+// http://www.quirksmode.org/js/keys.html
+// other sites too numerous to name...
 //
 // TODOs
 // the 'y' key sure would be nice, but seems technically impossible 
@@ -20,6 +23,17 @@
 // to the user's home page in safari
 var homePage='http://reluctanthacker.rollett.org/software/vimafarian/';
 var pressed;
+var actionCount=1;
+var debug=1;
+var suspend=false;
+
+function log(input) {
+  if (debug) {
+    window.console.log(input);
+  }
+}
+
+log(history);
 
 // functions 
 function goToBottom() {
@@ -55,7 +69,7 @@ function upToTop(docHref) {
   var endIndex = 0;
   var counter = 0;
   var myArray = docHref.toLowerCase().split('');
-  for (i=0;i<myArray.length;i++)
+  for (i=0; i < myArray.length; i++)
   {
     if (myArray[i] == '/')
     {
@@ -109,113 +123,147 @@ document.addEventListener('keypress',
 
 		var keyChar = String.fromCharCode(keyNum);
 
-    // Multi-key functions
-    if (keyChar == 'g') {
-      // emulates 'gg'
-      if (pressed == 'g') {
-        window.scrollTo(0,0);
-        pressed = '';
+    // ctrl-z functionality
+    if (keyNum == 26) {
+      if (suspend) {
+        suspend = false;
+        window.status = '';
       } else {
-        pressed = 'g';
+        suspend = true;
+        window.status = '-- Vimafarian suspended --';
       }
     }
-    else if (keyChar == 'h') {
-      // emulates 'gh'
-      if (pressed == 'g') {
-        // go to user's home page
-        window.location=homePage;
-        pressed = '';
-      } 
-    }
-    else if (keyChar == 'u') {
-      // emulates 'gu'
-      if (pressed == 'g') {
-        // go up one level
-        newHref = upOneDir(window.location.href);
-        if (newHref != window.location.href) {
-          window.location=newHref;
+
+    if (!suspend) {
+      // action Counts
+      if (keyChar > 1 && keyChar < 10) {
+        actionCount = parseInt(keyChar);
+      }
+      // Multi-key functions
+      else if (keyChar == 'g') {
+        // emulates 'gg'
+        if (pressed == 'g') {
+          window.scrollTo(0,0);
+          pressed = '';
+        } else {
+          pressed = 'g';
         }
-        pressed = '';
-      } 
-    }
-    else if (keyChar == 'U') {
-      // emulates 'gU'
-      if (pressed == 'g') {
-        // go up one level
-        newHref = upToTop(window.location.href);
-        if (newHref != window.location.href) {
-          window.location=newHref;
+      }
+      else if (keyChar == 'h') {
+        // emulates 'gh'
+        if (pressed == 'g') {
+          // go to user's home page
+          window.location=homePage;
+          pressed = '';
+        } 
+      }
+      else if (keyChar == 'u') {
+        // emulates 'gu'
+        if (pressed == 'g') {
+          // go up one level
+          newHref = upOneDir(window.location.href);
+          if (newHref != window.location.href) {
+            window.location=newHref;
+          }
+          pressed = '';
+        } 
+      }
+      else if (keyChar == 'U') {
+        // emulates 'gU'
+        if (pressed == 'g') {
+          // go up one level
+          newHref = upToTop(window.location.href);
+          if (newHref != window.location.href) {
+            window.location=newHref;
+          }
+          pressed = '';
+        } 
+      }
+
+      // Movement functions
+      // scroll to bottom
+      else if (keyChar == 'G') {
+        goToBottom();
+      }
+      // scroll up
+      else if (keyChar == 'j') {
+        window.scrollBy(0,50);
+      }
+      // scroll down
+      else if (keyChar == 'k') {
+        window.scrollBy(0,-50);
+      }
+      // scroll down one page
+      // ctrl-f
+      else if (keyNum == 6) {
+        window.scrollBy(0, window.innerHeight);
+      }
+      // scroll up one page
+      // ctrl-b
+      else if (keyNum == 2) {
+        window.scrollBy(0, -window.innerHeight);
+      }
+      // scroll down half page
+      // ctrl-d
+      else if (keyNum == 4) {
+        window.scrollBy(0, (window.innerHeight / 2));
+      }
+      // scroll up half page
+      // ctrl-u
+      else if (keyNum == 21) {
+        window.scrollBy(0, -(window.innerHeight / 2));
+      }
+
+      // Navigation functions
+      // go back one page
+      // ctrl-o
+      else if (keyNum == 15) {
+        if (actionCount > history.length) {
+          actionCount = history.length - 1;
         }
-        pressed = '';
-      } 
-    }
+        history.go(-actionCount);
+        actionCount = 1;
+      }
+      // go forward one page
+      // ctrl-i
+      else if (keyNum == 9) {
+        currentHref = window.location.href;
+        if (actionCount == 1) {
+          history.go(1);
+        } else {
+          while (actionCount > 1) {
+            log(actionCount);
+            if (!history.go(actionCount)) {
+              actionCount = actionCount - 1;
+            } else {
+              break;
+            }
+          }
+        }
+        actionCount = 1;
+      }
 
-    // Movement functions
-    // scroll to bottom
-    else if (keyChar == 'G') {
-      goToBottom();
-    }
-    // scroll up
-    else if (keyChar == 'j') {
-			window.scrollBy(0,50);
-		}
-    // scroll down
-		else if (keyChar == 'k') {
-      window.scrollBy(0,-50);
-		}
-    // scroll down one page
-    // ctrl-f
-		else if (keyNum == 6) {
-      window.scrollBy(0, window.innerHeight);
-    }
-    // scroll up one page
-    // ctrl-b
-		else if (keyNum == 2) {
-      window.scrollBy(0, -window.innerHeight);
-    }
-    // scroll down half page
-    // ctrl-d
-		else if (keyNum == 4) {
-      window.scrollBy(0, (window.innerHeight / 2));
-    }
-    // scroll up half page
-    // ctrl-u
-		else if (keyNum == 21) {
-      window.scrollBy(0, -(window.innerHeight / 2));
-    }
-
-    // Navigation functions
-    // go back one page
-    // ctrl-o
-    else if (keyNum == 15) {
-      history.go(-1);
-    }
-    // go forward one page
-    // ctrl-i
-    else if (keyNum == 9) {
-      history.go(1);
-    }
-
-    // Browser functions
-    // stop loading current page
-    // ctrl-c
-    else if (keyNum == 3) {
-      window.stop();
-    }
-    // close window
-		else if (keyChar == 'd') {
-      window.open('', '_self', '');
-      top.window.close();
-    }
-    else if (keyChar == 'r') {
-      window.location.reload();
-    }
-    else if (keyChar == 't') {
-      openNewTab();
-    }
-    else if (keyChar == 'y') {
-      var y=window.location.href;
-      alert(y);
+      // Browser functions
+      // stop loading current page
+      // ctrl-c
+      else if (keyNum == 3) {
+        window.stop();
+      }
+      // close window
+      else if (keyChar == 'd') {
+        window.open('', '_self', '');
+        top.window.close();
+      }
+      else if (keyChar == 'r') {
+        window.location.reload();
+      }
+      else if (keyChar == 't') {
+        openNewTab();
+      }
+      else if (keyChar == 'y') {
+        var y=window.location.href;
+        alert(y);
+      }
     }
 	}, 
 true);
