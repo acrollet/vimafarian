@@ -11,6 +11,9 @@
 // http://www.openjs.com/scripts/events/keyboard_shortcuts/
 //
 
+// globals
+var pressed;
+
 // functions 
 function goToBottom() {
   var sh=document.body.scrollHeight;
@@ -38,7 +41,6 @@ document.addEventListener('keypress',
     if(element.tagName == 'INPUT' || element.tagName == 'TEXTAREA') return;
 
 		var keyNum;
-    var pressed;
 
     if (e.which) {
 			keyNum = e.which;
@@ -48,6 +50,7 @@ document.addEventListener('keypress',
 
     // Multi-key functions
     if (keyChar == 'g') {
+      // emulates 'gg'
       if (pressed == 'g') {
         window.scrollTo(0,0);
         pressed = '';
