@@ -10,6 +10,10 @@
 // CREDITS
 // http://www.openjs.com/scripts/events/keyboard_shortcuts/
 //
+// TODOs
+// the 'y' key sure would be nice, but seems technically impossible 
+//   to implement correctly at the moment
+// 
 
 // globals
 // this is hacky, necessitated by the lack of a js function for going
@@ -31,6 +35,16 @@ function openNewTab() {
   var newWindow = window.open('', 'New Tab', 'location=1,resizable=1,scrollbars=1');
   newWindow.focus();
   return false;
+}
+
+function upOneDir(docHref) {
+  var lastSlash = docHref.lastIndexOf('/');
+  var lengthOfHref = docHref.length;
+  if (lengthOfHref == (lastSlash + 1)) {
+    docHref = docHref.substr(0, (lengthOfHref - 2));
+    var lastSlash = docHref.lastIndexOf('/');
+  }
+  return docHref.substr(0, (lastSlash + 1));
 }
 
 document.addEventListener('keypress', 
@@ -69,6 +83,14 @@ document.addEventListener('keypress',
         pressed = '';
       } 
     }
+    if (keyChar == 'u') {
+      // emulates 'gu'
+      if (pressed == 'g') {
+        // go up one level
+        window.location=upOneDir(window.location.href);
+        pressed = '';
+      } 
+    }
 
     // Movement functions
     // scroll to bottom
@@ -95,6 +117,10 @@ document.addEventListener('keypress',
     }
     else if (keyChar == 't') {
       openNewTab();
+    }
+    else if (keyChar == 'y') {
+      var y=window.location.href;
+      alert(y);
     }
 	}, 
 true);
