@@ -173,6 +173,16 @@ document.addEventListener('keypress',
 		else if (keyNum == 2) {
       window.scrollBy(0, -window.innerHeight);
     }
+    // scroll down half page
+    // ctrl-d
+		else if (keyNum == 4) {
+      window.scrollBy(0, (window.innerHeight / 2));
+    }
+    // scroll up half page
+    // ctrl-u
+		else if (keyNum == 21) {
+      window.scrollBy(0, -(window.innerHeight / 2));
+    }
 
     // Browser functions
     // close window
