@@ -58,6 +58,14 @@ document.addEventListener('keypress',
         pressed = 'g';
       }
     }
+    if (keyChar == 'h') {
+      // emulates 'gh'
+      if (pressed == 'g') {
+        // go to user's home page
+        window.home();
+        pressed = '';
+      } 
+    }
 
     // Movement functions
     // scroll to bottom
