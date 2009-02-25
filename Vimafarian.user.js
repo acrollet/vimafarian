@@ -99,7 +99,13 @@ document.addEventListener('keypress',
 
     if (e.which) {
 			keyNum = e.which;
+      // here's where we find out the keyNum for ctrl chars
+      // alert(keyNum);
 		}
+
+    if (e.keyCode) {
+      keyCode = e.keyCode;
+    }
 
 		var keyChar = String.fromCharCode(keyNum);
 
@@ -157,6 +163,16 @@ document.addEventListener('keypress',
 		else if (keyChar == 'k') {
       window.scrollBy(0,-50);
 		}
+    // scroll down one page
+    // ctrl-f
+		else if (keyNum == 6) {
+      window.scrollBy(0, window.innerHeight);
+    }
+    // scroll up one page
+    // ctrl-b
+		else if (keyNum == 2) {
+      window.scrollBy(0, -window.innerHeight);
+    }
 
     // Browser functions
     // close window
