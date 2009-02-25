@@ -12,11 +12,19 @@
 //
 
 // functions 
-function goToBottom(){
+function goToBottom() {
   var sh=document.body.scrollHeight;
   var oh=document.body.offsetHeight;
   if (sh > oh) window.scrollTo(0,sh);
   else window.scrollTo(0,oh);
+  return false;
+}
+
+function openNewTab() {
+  // Change "_blank" to something like "newWindow" to load all links in the same new window
+  var newWindow = window.open(this.getAttribute('href'), '_blank');
+  newWindow.focus();
+  return false;
 }
 
 document.addEventListener('keypress', 
@@ -60,6 +68,8 @@ document.addEventListener('keypress',
     else if (keyChar == 'r') {
       window.location.reload();
     }
-
+    else if (keyChar == 't') {
+      openNewTab();
+    }
 	}, 
 true);
