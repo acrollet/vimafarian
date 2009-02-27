@@ -13,10 +13,13 @@
 // http://www.quirksmode.org/js/keys.html
 // other sites too numerous to name...
 //
-// TODOs
+// @TODOs
 // the 'y' key sure would be nice, but seems technically impossible 
 //   to implement correctly at the moment
 // motion ranges are needed...
+
+// @BUGS
+// help HUD pops up at top of page even when page is scrolled down
 
 // globals
 // this is hacky, necessitated by the lack of a js function for going
@@ -156,6 +159,9 @@ document.addEventListener('keypress',
           window.location=homePage;
           pressed = '';
         } 
+        else {
+          window.scrollBy(-50,0);
+        }
       }
       else if (keyChar == 'u') {
         // emulates 'gu'
@@ -192,6 +198,9 @@ document.addEventListener('keypress',
       // scroll down
       else if (keyChar == 'k') {
         window.scrollBy(0,-50);
+      }
+      else if (keyChar == 'l') {
+        window.scrollBy(50,0);
       }
       // scroll down one page
       // ctrl-f
